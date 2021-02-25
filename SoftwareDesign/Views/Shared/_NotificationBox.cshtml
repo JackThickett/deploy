@@ -1,0 +1,21 @@
+﻿
+@if (string.IsNullOrEmpty(ViewData["SuccessMessage"].ToString()))
+{
+
+}
+else
+{
+    var status = "";
+    @if (ViewData["SuccessMessageStatus"].ToString() == "Success")
+    {
+        status = "success";
+    }
+    else if (ViewData["SuccessMessageStatus"].ToString() == "Error")
+    {
+        status = "danger";
+    }
+    <div class="alert alert-@status">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        @ViewData["SuccessMessage"].ToString()
+    </div>
+}

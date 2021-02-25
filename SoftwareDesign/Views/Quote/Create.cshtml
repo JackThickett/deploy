@@ -1,0 +1,101 @@
+﻿@model SoftwareDesign.Models.Quote
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create Quote</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="CreateStep1">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Postcode" class="control-label"></label>
+                <input asp-for="Postcode" class="form-control" />
+                <span asp-validation-for="Postcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedContractType" class="control-label">Select Contract Type</label>
+                <select asp-for="SelectedContractType" asp-items="Quote.PopulateContractTypeDropDownList()"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="SelectedContractType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimatedElectricityUsage" class="control-label"></label>
+                <input asp-for="EstimatedElectricityUsage" class="form-control" />
+                <span asp-validation-for="EstimatedElectricityUsage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimatedGasUsage" class="control-label"></label>
+                <input asp-for="EstimatedGasUsage" class="form-control" />
+                <span asp-validation-for="EstimatedGasUsage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedMeterType" class="control-label">Select Your Current Meter Type</label>
+                <select asp-for="SelectedMeterType" asp-items="Quote.PopulateMeterTypeDropDownList()"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="SelectedMeterType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedPaymentFrequency" class="control-label">Select Your Prefered Payment Frequency</label>
+                <select asp-for="SelectedPaymentFrequency" asp-items="Quote.PopulatePaymentFrequencyDropDownList()"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="SelectedPaymentFrequency" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Next" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        let ElectricityPreset = 1500;
+        let gasPreset = 2000;
+        $("#EstimatedGasUsage").parent().hide();
+        $("#EstimatedElectricityUsage").parent().hide();
+        $("#EstimatedElectricityUsage").val(ElectricityPreset);
+        $("#EstimatedGasUsage").val(gasPreset);
+
+        $("#SelectedContractType").on("change", function () {
+            if (this.value == "Electricity") {
+                $("#EstimatedGasUsage").parent().hide();
+                $("#EstimatedGasUsage").val(0)
+                $("#EstimatedElectricityUsage").val(ElectricityPreset);
+
+                $("#EstimatedElectricityUsage").parent().show();
+            } else if (this.value == "Gas") {
+                $("#EstimatedElectricityUsage").parent().hide();
+                $("#EstimatedElectricityUsage").val(0);
+                $("#EstimatedGasUsage").val(gasPreset);
+
+                $("#EstimatedGasUsage").parent().show();
+            } else if (this.value == "Dual Tariff") {
+                $("#EstimatedElectricityUsage").val(ElectricityPreset);
+                $("#EstimatedGasUsage").val(gasPreset);
+                $("#EstimatedElectricityUsage").parent().show();
+                $("#EstimatedGasUsage").parent().show();
+            } else
+            {
+                $("#EstimatedElectricityUsage").parent().hide();
+                $("#EstimatedGasUsage").parent().hide();
+            }
+        })
+    });
+</script>

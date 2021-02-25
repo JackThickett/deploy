@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" title="Logout" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" title="Register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" title="Login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+        }
+        <li class="nav-item">
+            <i id="zoomIn" title="Zoom In" class="fas fa-search-plus"></i>
+        </li>
+        <li class="nav-item">
+            <i id="zoomOut" title="Zoom Out" class="fas fa-search-minus"></i>
+        </li>
+    </ul>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        let fontSize = 16;
+        let mininum = 14;
+        let maximum = 30;
+        let step = 2;
+
+        $("#zoomIn").on("click", function () {
+            if (((fontSize + step) < maximum)) {
+                fontSize += step;
+                $("main").css("font-size", fontSize);
+            }
+        });
+
+        $("#zoomOut").on("click", function () {
+            if (!((fontSize - step) < mininum)) {
+                fontSize -= step;
+                $("main").css("font-size", fontSize);
+            }
+        });
+    });
+</script>

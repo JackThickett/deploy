@@ -1,0 +1,140 @@
+﻿@model IEnumerable<SoftwareDesign.Models.QuoteViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var IsAdmin = ViewContext.HttpContext.User.IsInRole("Admin");
+}
+
+@if (IsAdmin)
+{
+    <h1>Pending Quotes Requests</h1>
+}
+else
+{
+    <h1>My Quotes</h1>
+}
+
+<partial name="~/Views/Shared/_NotificationBox.cshtml">
+    @if (!IsAdmin)
+    {
+        <form asp-action="Create">
+            <button class="btn btn-primary">Create A Quote</button>
+        </form>
+    }
+    @if (Model.ToList().Count() != 0)
+    {
+        <div class="table-container">
+            <table class="table" style="margin-top:1rem;">
+                <thead>
+                    <tr>
+                        <th><a asp-action="List" asp-route-sortOrder="@ViewData["PostcodeSortParam"]">@Html.DisplayNameFor(model => model.quote.Postcode)</a>  </th>
+                        <th><a asp-action="List" asp-route-sortOrder="@ViewData["CreatedSortParam"]">@Html.DisplayNameFor(model => model.quote.Created)</a> </th>
+                        <th>
+                            Contract <br /> Name
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.quote.Status)
+                        </th>
+                        <th>
+                            Energy <br /> Type
+                        </th>
+                        <th>
+                            Electricity <br /> Usage
+                        </th>
+                        <th>
+                            Gas <br /> Usage
+                        </th>
+                        <th>
+                            Meter <br /> Type
+                        </th>
+                        <th>
+                            Payment <br /> Frequency
+                        </th>
+                        <th class="action-buttons-column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string colour = "";
+                        @if (item.quote.Status == "Approved")
+                        {
+                            // Green
+                            // This quote is ready to be activated -> Show activate button that turns status to "Active"
+                            colour = "#00b316ad";
+                        }
+                        else if (item.quote.Status == "Denied")
+                        {
+                            // Red
+                            // Customer needs to update information based on comment
+                            colour = "#bb2020ad";
+                        }
+                        <tr style="background: @colour">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.Postcode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.contractName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.Status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.SelectedContractType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.EstimatedElectricityUsage)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.EstimatedGasUsage)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.SelectedMeterType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.quote.SelectedPaymentFrequency)
+                            </td>
+                            <td class="action-buttons-cell">
+                                <a class="btn btn-primary" asp-action="View" asp-route-id="@item.quote.ID">View</a>
+
+                                @if (IsAdmin)@*buttons hidden unless logged in as staff*@
+                                {
+                                    <a class="btn btn-primary" asp-action="Respond" asp-route-id="@item.quote.ID">Respond</a>
+                                }
+                                else if (ViewContext.HttpContext.User.IsInRole("Customer"))
+                                {
+                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.quote.ID">Edit</a>
+                                }
+
+                                <a class="btn btn-primary" asp-action="History" asp-route-id="@item.quote.ID">History</a>
+
+                                <form asp-action="Delete" asp-route-id="@item.quote.ID"
+                                      onclick="return confirm('Are you sure you want to delete this quote?')">
+                                    <button class="btn btn-danger button-margin">Delete</button>
+                                </form>
+
+                                @if (ViewContext.HttpContext.User.IsInRole("Customer") && item.quote.Status == "Approved")
+                                {
+                                    <form asp-action="Activate" asp-route-id="@item.quote.ID"
+                                          onclick="return confirm('Are you sure you want to activate this quote?')">
+                                        <button class="btn btn-success button-margin">Activate</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p style="font-size:24px;"><br />You have no quotes yet. <a asp-action="Create">Create a quote</a> to get started!</p>
+    }

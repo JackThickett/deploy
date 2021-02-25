@@ -1,0 +1,125 @@
+﻿@model IEnumerable<SoftwareDesign.Models.QuoteLogViewModel>
+
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Quote History</h1>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.quoteLog.Postcode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.quoteLog.Created)
+                </th>
+                <th>
+                    Contract <br /> Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.quoteLog.Status)
+                </th>
+                <th>
+                    Electricity <br /> Usage
+                </th>
+                <th>
+                    Gas <br /> Usage
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.quoteLog.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.quoteLog.EndDate)
+                </th>
+                <th>
+                    Energy <br /> Type @*contracttype*@
+                </th>
+                <th>
+                    Meter <br /> Type
+                </th>
+                <th>
+                    Payment <br /> Frequency
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.quoteLog.Comment)
+                </th>
+                @if (User.IsInRole("Admin"))
+                {
+                 <th>
+                        @Html.DisplayNameFor(model => model.quoteLog.staffID)
+                 </th>
+                }
+                <th>
+                    @Html.DisplayNameFor(model => model.quoteLog.Occured)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.Postcode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.contractName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.EstimatedElectricityUsage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.EstimatedGasUsage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.SelectedContractType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.SelectedMeterType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.SelectedPaymentFrequency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.Comment)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                 <th>
+                    @Html.DisplayFor(modelItem => item.quoteLog.staffID)
+                 </th>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.quoteLog.Occured)
+                </td>
+                @*<td>
+            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+        </td>*@
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<br />
+<div>
+    <a asp-action="List">Back to List</a>
+</div>

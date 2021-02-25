@@ -1,0 +1,176 @@
+﻿@model SoftwareDesign.Models.ContractViewModel
+
+@{
+    ViewData["Title"] = "CreateQuote2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<h1>Step 2 - Choose A Tariff</h1>
+
+<h3>Contract Type: @Model.ContractType</h3>
+
+<partial name="~/Views/Shared/_NotificationBox.cshtml">
+
+    <div class="card-container-outer">
+
+        @foreach (var item in Model.Contracts)
+        {
+            double GasPriceD = Math.Truncate((item.GasRate * (double)(Model.EstimatedGasUsage)) * 100);
+            double GasPriceYearly = (GasPriceD * 12) / 0.9;
+            string GasPrice = (GasPriceD / 100).ToString("#.00");
+            string GasPriceYearlyS = (GasPriceYearly / 100).ToString("#.00");
+
+            double ElectricityPriceD = Math.Truncate((item.ElectricityRate * (double)(Model.EstimatedElectricityUsage)) * 100);
+            double ElectricityPriceYearly = (ElectricityPriceD * 12) / 0.9;
+            string ElectricityPrice = (ElectricityPriceD / 100).ToString("#.00");
+            string ElectricityPriceYearlyS = (ElectricityPriceYearly / 100).ToString("#.00");
+
+
+            <div class="card-container-inner">
+
+                <div id="Contract-@item.ID" class="w3-card-4">
+
+                    <div class="w3-container w3-center">
+
+                        <div class="contracts-card-title">
+                            <h3>@item.ContractName</h3>
+
+                        <span style="color: greenyellow;">
+                            <i class="fas fa-leaf fa-7x"></i>
+                        </span>
+                    </div>
+
+                        @if (Model.ContractType == "Dual Tariff")
+                        {
+                            if (Model.PaymentFrequency == "Yearly")
+                            {
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Electricity Cost Per Year: </div>
+                                    <div>£@ElectricityPriceYearlyS</div>
+                                </div>
+
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Gas Cost Per Year: </div>
+                                    <divs>£@GasPriceYearlyS</divs>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Electricity Cost Per Month: </div>
+                                    <div>£@ElectricityPrice</div>
+                                </div>
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Gas Cost Per Month: </div>
+                                    <div>£@GasPrice</div>
+                                </div>
+                            }
+                        }
+                        else if (Model.ContractType == "Electricity")
+                        {
+                            if (Model.PaymentFrequency == "Yearly")
+                            {
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Electricity Cost Per Year: </div>
+                                    <div>£@ElectricityPriceYearlyS</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Electricity Cost Per Month: </div>
+                                    <div>£@ElectricityPrice</div>
+                                </div>
+                            }
+                        }
+                        else if (Model.ContractType == "Gas")
+                        {
+                            if (Model.PaymentFrequency == "Yearly")
+                            {
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Gas Cost Per Year: </div>
+                                    <div>£@GasPriceYearlyS</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="contracts-card-cost">
+                                    <div class="contracts-card-text">Gas Cost Per Month: </div>
+                                    <div> £@GasPrice</div>
+                                </div>
+                            }
+                        }
+                        <div class="contracts-card-description">
+                            @item.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="contracts-form">
+        <form asp-action="Create2Submit" method="post" asp-route-id="@Model">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ContractID" class="control-label"></label>
+                <select asp-for="ContractID" asp-items="@Quote.PopulateContractDropDownList()" class="form-control">
+                </select>
+                <span asp-validation-for="ContractID" class="text-danger"></span>
+            </div>
+
+            <button class="btn btn-primary">Submit</button>
+        </form>
+        <br />
+        <a asp-action="Create">Back</a>
+    </div>
+
+  
+    <script type="text/javascript">
+        function clearAllHighlights() {
+            $("#Contract-2").css("box-shadow", "");
+            $("#Contract-3").css("box-shadow", "");
+            $("#Contract-4").css("box-shadow", "");
+            $("#Contract-6").css("box-shadow", "");
+        }
+
+        function applyHighlight(cardID) {
+            $(cardID).css("box-shadow", "0px 0px 8px 14px #00e207");
+        }
+
+        $(document).ready(function () {
+            $("#Contract-2").on("click", (e) => {
+                clearAllHighlights();
+                let id = "#" + $(e.target).closest(".w3-card-4").attr('id');
+                applyHighlight(id);
+                $("#ContractID").val("2");
+            });
+            $("#Contract-3").on("click", (e) => {
+                clearAllHighlights();
+                let id = "#" + $(e.target).closest(".w3-card-4").attr('id');
+                applyHighlight(id);
+                $("#ContractID").val("3");
+            });
+            $("#Contract-4").on("click", (e) => {
+                clearAllHighlights();
+                let id = "#" + $(e.target).closest(".w3-card-4").attr('id');
+                applyHighlight(id);
+                $("#ContractID").val("4");
+            });
+            $("#Contract-6").on("click", (e) => {
+                clearAllHighlights();
+                let id = "#" + $(e.target).closest(".w3-card-4").attr('id');
+                applyHighlight(id);
+                $("#ContractID").val("6");
+            });
+
+            $("#ContractID").on("change", (e) => {
+                clearAllHighlights();
+                let id = "#Contract-" + $(e.target).val()
+                applyHighlight(id);
+            });
+        });
+
+    </script>

@@ -1,0 +1,118 @@
+﻿@model SoftwareDesign.Models.Quote
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<partial name="~/Views/Shared/_NotificationBox.cshtml">
+
+<h4>Quote</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Postcode" class="control-label"></label>
+                <input asp-for="Postcode" class="form-control" />
+                <span asp-validation-for="Postcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedContractType" class="control-label"></label>
+                <select asp-for="SelectedContractType" asp-items="Quote.PopulateContractTypeDropDownList()"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="SelectedContractType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimatedElectricityUsage" class="control-label"></label>
+                <input asp-for="EstimatedElectricityUsage" class="form-control" />
+                <span asp-validation-for="EstimatedElectricityUsage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimatedGasUsage" class="control-label"></label>
+                <input asp-for="EstimatedGasUsage" class="form-control" />
+                <span asp-validation-for="EstimatedGasUsage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedMeterType" class="control-label"></label>
+                <select asp-for="SelectedMeterType" asp-items="Quote.PopulateMeterTypeDropDownList()"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="SelectedMeterType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedPaymentFrequency" class="control-label"></label>
+                <select asp-for="SelectedPaymentFrequency" asp-items="Quote.PopulatePaymentFrequencyDropDownList()"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="SelectedPaymentFrequency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractID" class="control-label"></label>
+                <select asp-for="ContractID" asp-items="Quote.PopulateContractDropDownList()"
+                        class="form-control">
+                </select>
+                <span asp-validation-for="ContractID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+    <a asp-action="List">Back to List</a>
+<div>
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        let oldElectricity = $("#EstimatedElectricityUsage").val();
+        let oldGas = $("#EstimatedGasUsage").val();
+
+        if ($("#SelectedContractType").val() == "Electricity") {
+            $("#EstimatedGasUsage").parent().hide();
+            $("#EstimatedElectricityUsage").parent().show();
+
+        } else if ($("#SelectedContractType").val() == "Gas") {
+            $("#EstimatedGasUsage").parent().show();
+            $("#EstimatedElectricityUsage").parent().hide();
+        }
+
+        $("#SelectedContractType").on("change", function () {
+            if (this.value == "Electricity") {
+                $("#EstimatedGasUsage").parent().hide();
+                $("#EstimatedGasUsage").val(0)
+                $("#EstimatedElectricityUsage").val(oldElectricity);
+
+                $("#EstimatedElectricityUsage").parent().show();
+            } else if (this.value == "Gas") {
+                $("#EstimatedElectricityUsage").parent().hide();
+                $("#EstimatedElectricityUsage").val(0);
+                $("#EstimatedGasUsage").val(oldGas);
+
+                $("#EstimatedGasUsage").parent().show();
+            } else if (this.value == "Dual Tariff") {
+                $("#EstimatedElectricityUsage").val(oldElectricity);
+                $("#EstimatedGasUsage").val(oldGas);
+                $("#EstimatedElectricityUsage").parent().show();
+                $("#EstimatedGasUsage").parent().show();
+            } else {
+                $("#EstimatedElectricityUsage").parent().hide();
+                $("#EstimatedGasUsage").parent().hide();
+            }
+        })
+    });
+</script>

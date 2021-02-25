@@ -1,0 +1,303 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+/*Password requirements from: https://kenhaggerty.com/articles/article/aspnet-core-22-password-requirements*/
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.invalid.password_requirement {
+    color: orange;
+}
+
+.valid.password_requirement {
+    color: green;
+}
+
+/* Notification message styling from: https://www.w3schools.com/howto/howto_js_alert.asp */
+.alert {
+    padding: 20px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.alert-danger {
+    background-color: #f44336; /* Red */
+}
+
+.alert-success {
+    background-color: forestgreen; 
+}
+
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+
+.closebtn:hover {
+    color: black;
+}
+
+/* Home page */
+
+p {
+    padding: 15px;
+}
+
+.homepage-container {
+    display: inline;
+    flex-wrap: wrap;
+    padding: 20px;
+    text-align: center;
+}
+
+.pendingCompletionTable {
+    max-height: 375px;
+    min-width: 300px;
+    margin: 10px;
+}
+
+.homePageNotifs {
+    min-width: 300px;
+    font-size: 17px;
+    margin: 10px;
+}
+@media only screen and (max-width:1199px) {
+    .homePageNotifs {
+        border-top: 1px solid #8080805e;
+        padding-top: 10px;
+    }
+}
+.homepageTitle {
+    margin-bottom:25px;
+}
+
+.homepage-card-img {
+    padding:20px;
+}
+
+.card-container-outer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    align-items: stretch;
+}
+
+
+.card-container-inner {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 100px;
+    padding-left: 10px;
+    flex: 500px;
+}
+
+.w3-card-4 {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.contracts-form {
+    padding-bottom: 100px;
+}
+
+.Contracts-card-description {
+    padding-top: 20px;
+}
+
+.homepage-link {
+    color: #0366d6;
+}
+
+.homepage-intro a {
+    color: #0366d6; 
+}
+
+.view-contracts {
+    padding-top: 10px;
+    padding-bottom: 100px;
+}
+
+.contracts-preview {
+    padding: 25px;
+}
+
+.button-margin {
+    margin-top:5px;
+}
+
+@media only screen and (min-width: 1200px) {
+    .container {
+        max-width: 1300px;
+    }
+}
+
+.action-buttons-column {
+    width: 225px;
+}
+@media only screen and (max-width: 768px) {
+    #zoomIn, #zoomOut {
+        display:none;
+    }
+}
+#zoomIn, #zoomOut {
+    cursor:pointer;
+    font-size:21px;
+    margin:9px;
+}
+.nav-link {
+    transition: color 0.5s ease !important;
+    color:black !important;
+}
+
+.nav-link:hover {
+    color: dodgerblue !important;
+}
+.btn-primary {
+    margin-top:5px;
+}
+.action-buttons-view {
+    display:flex;
+    justify-content:space-between;
+    max-width:300px;
+}
+.action-buttons-cell {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    min-width: 225px;
+    border-top: none !important;
+}
+.action-buttons-cell_contracts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    min-width: 175px;
+    border-top: none !important;
+}
+
+.table-container {
+    min-width:100%;
+    overflow-x:auto;
+}
+
+.container {
+    min-width:100%;
+}
+
+@media only screen and (min-width: 1200px) {
+    .container {
+        min-width:80%;
+    }
+}
+.contracts-card-title {
+    font-size: 30px;
+}
+
+.contracts-card-cost {
+    margin-top:10px;
+}
+.contracts-card-text {
+    font-weight:bold;
+}
+
+.contracts-card-description {
+    margin: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #989898;
+}
+
+.contact-us-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-flow: row wrap;
+}
+
+.contact-us-inner {
+    width: 500px;
+    padding: 50px;
+}
+
+.contact-img {
+    padding: 20px;
+}

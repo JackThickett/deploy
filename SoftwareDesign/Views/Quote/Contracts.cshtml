@@ -1,0 +1,121 @@
+﻿@model IEnumerable<SoftwareDesign.Models.QuoteViewModel>
+
+@{
+    ViewData["Title"] = "Contracts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>My Contracts</h1>
+
+@if (Model.ToList().Count() != 0)
+{
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.quote.Postcode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.quote.Created)
+                    </th>
+                    <th>
+                        Contract <br /> Name
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.quote.Status)
+                    </th>
+                    <th>
+                        Energy <br /> Type
+                    </th>
+                    <th>
+                        Electricity <br /> Usage
+                    </th>
+                    <th>
+                        Gas <br /> Usage
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        Next <br /> Payment
+                    </th>
+                    <th>
+                        Payment <br /> Due
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.quote.EndDate)
+                    </th>
+                    <th>
+                        Meter <br /> Type
+                    </th>
+                    <th>
+                        Payment <br /> Frequency
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.Postcode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.Created)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contractName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.SelectedContractType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.EstimatedElectricityUsage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.EstimatedGasUsage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.StartDate)
+                    </td>
+                    <td>
+                        £@Html.DisplayFor(modelItem => item.nextPayment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nextPaymentDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.SelectedMeterType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quote.SelectedPaymentFrequency)
+                    </td>
+                    <td class="action-buttons-cell_contracts">
+                        <a class="btn btn-primary" asp-action="View" asp-route-id="@item.quote.ID">View</a>
+                        <a class="btn btn-primary" asp-action="History" asp-route-id="@item.quote.ID">History</a>
+
+                        <form asp-action="Delete" asp-route-id="@item.quote.ID"
+                              onclick="return confirm('Are you sure you want to delete this contract?')">
+                            <button class="btn btn-danger button-margin">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    }
+    else
+    {
+    <p style="font-size:24px;"><br />You have no contracts yet. <a asp-action="Create">Create a quote</a> to get started!</p>
+    }

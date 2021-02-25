@@ -1,0 +1,165 @@
+@model SoftwareDesign.Models.HomepageViewModel
+
+@{ ViewData["Title"] = "Home Page";}
+
+@if ((bool)ViewData["IsAdmin"] == true)
+{ // Admin Homepage view
+    <div class="text-center">
+        <h1 class="display-4">Welcome Admin!</h1>
+    </div>
+
+    <div class="homepage-container">
+
+        <h5>Quote requests pending completion: @Model.countProspectus </h5>
+
+        <div class="contracts-preview">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.quoteList[0].Postcode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.quoteList[0].Created)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.quoteList[0].Status)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.quoteList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Postcode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="view-contracts">
+                <form asp-controller="Quote" asp-action="List">
+                    <button class="btn btn-primary">View All Pending Quotes</button>
+                </form>
+            </div>
+
+        </div>
+
+        <p>Number of Quote requests completed since 01/01/2021 :</p>
+
+    </div>
+}
+else if ((bool)ViewData["IsCustomer"] == true)
+{ //Customer homepage view
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://kit.fontawesome.com/5d31a767e2.js" crossorigin="anonymous"></script>
+
+    <body>
+        <div class="text-center">
+            <h1 class="display-4">Welcome @Model.username! </h1>
+
+            <h2>Our Tarrifs</h2>
+
+            <div class="homepage-intro">
+                <p>
+                    Below you will see our current energy rates, go to <a asp-controller="Quote" asp-action="Create">Create a Quote</a> to make your
+                    own tailored quote, or <a asp-controller="Quote" asp-action="List">My Quotes</a> to view all your current quotes.
+                </p>
+            </div>
+
+            <div class="card-container-outer">
+
+                @foreach (var item in Model.Contracts)
+                {
+                    <div class="card-container-inner">
+
+                        <div class="w3-card-4">
+
+                            <div class="w3-container w3-center">
+
+                            <div class="Contracts-card-title">@item.ContractName</div>
+
+
+                                <span style="color: greenyellow;">
+                                    <i class="fas fa-leaf fa-7x homepage-card-img"></i>
+                                </span>
+
+                                <h4>Gas Rate: @item.GasRate kW/h</h4>
+                                <h4>Electricity Rate: @item.ElectricityRate kW/h</h4>
+                            </div>
+
+                            <div class="Contracts-card-description">
+                                <h5>@item.Description </h5>
+                            </div>
+
+                        </div>
+                    </div>}
+            </div>
+        </div>
+
+    </body>
+}
+else
+{ // Homepage for user not logged in to either role
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://kit.fontawesome.com/5d31a767e2.js" crossorigin="anonymous"></script>
+
+    <body>
+        <div class="text-center">
+            <h1 class="display-4">ABC Energy</h1>
+
+            <h2>Our Tarrifs</h2>
+
+            <div class="homepage-intro">
+                <p>
+                    Below you will see our energy rates for gas and electricity across our various plans.
+                    <a asp-route="accountregister">Sign up</a> today to get a tailored quote and a member of our team will be in
+                    touch to make sure you get the plan that's best for you!
+                </p>
+            </div>
+
+            <div class="card-container-outer">
+
+                @foreach (var item in Model.Contracts)
+                {
+                <div class="card-container-inner">
+
+                    <div class="w3-card-4">
+
+                        <div class="w3-container w3-center">
+
+                            <div class="Contracts-card-title">@item.ContractName</div>
+
+
+                            <span style="color: greenyellow;">
+                                <i class="fas fa-leaf fa-7x homepage-card-img"></i>
+                            </span>
+
+                            <h4>Gas Rate: @item.GasRate kW/h</h4>
+                            <h4>Electricity Rate: @item.ElectricityRate kW/h</h4>
+                        </div>
+
+                        <div class="Contracts-card-description">
+                            <h5>@item.Description </h5>
+                        </div>
+
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+    </body>
+
+}
